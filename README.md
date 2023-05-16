@@ -64,6 +64,7 @@ Para fechar a Interface você pode pressionar o botão "X" no canto superior dir
 Para criar um novo labirinto, saia da execução atual e execute novamente o código.
 A geração do ponto de partida e ponto de chegada do labirinto é feita de forma aleatória, o que significa que às vezes o labirinto pode ser maior ou menor do que o desejado.
 
+Abaixo segue link para acessar ao video publicado: <https://www.youtube.com/watch?v=PthGa1tCLtM>
 
 
 
