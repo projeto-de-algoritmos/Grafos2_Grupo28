@@ -16,8 +16,6 @@ class Maze:
         self.INFINITY = float('inf')
         self.__dist = dict()
         self.__parent = dict()
-        # Using dict comprehension
-        # self.__dist = {(element,item): self.INFINITY for element in range(len(matrix)) for item in range(len(matrix[0]))}
         for element in range(self.__lines):
             for item in range(self.__columns):
                 self.__dist[(element, item)] = self.INFINITY
@@ -74,7 +72,7 @@ class Maze:
         draw_path = False
         path_index = 0
         elapsed_time = 0
-
+        print("Resultado da menor distancia encontrada entre os nós {} e {}, é: {:.0f}".format(vStart,vEnd,self.__dist[vEnd]))
         while True:
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -87,7 +85,6 @@ class Maze:
             screen.fill(BLACK)  # Clear the screen
 
             # Draw the maze
-            # Draw the maze
             for i in range(self.__lines):
                 for j in range(self.__columns):
                     rect = pygame.Rect(j * cell_width, i * cell_height, cell_width, cell_height)
@@ -95,10 +92,6 @@ class Maze:
                         pygame.draw.rect(screen, PATH, rect)
                     elif self.__matrix[i][j] == self.__block:
                         pygame.draw.rect(screen, WALL, rect)
-                    elif (i, j) == startNode:  # Highlight start node
-                        pygame.draw.rect(screen, GREEN, rect)
-                    elif (i, j) == endNode:  # Highlight end node
-                        pygame.draw.rect(screen, MAGENTA, rect)
                     else:
                         pygame.draw.rect(screen, BACKGROUND, rect)   
 
@@ -112,17 +105,6 @@ class Maze:
             pygame.display.flip()
             clock.tick(30)
             elapsed_time += clock.get_time() / 1000
-    
-    def GetNeighbours(self, line, column, excludeBlock=True):
-        neighbours = []
-        delta = [(0, 1), (1, 0), (-1, 0), (0, -1)]
-        for (x, y) in delta:
-            if (line+x <= 0 or line+x >= len(self.__matrix) - 1 or column+y <= 0 or column+y >= len(self.__matrix[0]) - 1
-                    or (self.__matrix[line+x][column+y] == self.__block and excludeBlock)):
-                continue
-            else:
-                neighbours.append((line+x, column+y, 1))
-        return neighbours
     
     def CreateMaze(self, vStart):  # Using Kruskal
         maze = set()
@@ -159,6 +141,17 @@ class Maze:
             else:
                 notValidNodes.add(currentNode)
                 currentNode = nodeStack.pop()
+
+    def GetNeighbours(self, line, column, excludeBlock=True):
+        neighbours = []
+        delta = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+        for (x, y) in delta:
+            if (line+x <= 0 or line+x >= len(self.__matrix) - 1 or column+y <= 0 or column+y >= len(self.__matrix[0]) - 1
+                    or (self.__matrix[line+x][column+y] == self.__block and excludeBlock)):
+                continue
+            else:
+                neighbours.append((line+x, column+y, 1))
+        return neighbours
 
     def CreateMatrix(self):
         return [['▣'] * self.__columns for i in range(self.__lines)]
